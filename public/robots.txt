@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://pocketmc.github.io/pocket-mc-website/sitemap.xml
