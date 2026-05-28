@@ -9,6 +9,15 @@ import BorderGlow from "./components/BorderGlow";
 import LiquidEther from "./components/LiquidEther";
 import { Skeleton } from "./components/ui/skeleton";
 import ElectricBorder from "./components/ElectricBorder";
+import {
+  Table,
+  TableHeader,
+  TableBody,
+  TableRow,
+  TableHead,
+  TableCell,
+} from "./components/ui/table";
+
 
 const getAssetUrl = (path: string) => {
   if (!path) return "";
@@ -196,6 +205,102 @@ const detailFeatures = [
     ]
   }
 ];
+
+// Comparison Table Data
+const comparisonData = [
+  {
+    tool: "PocketMC",
+    category: "Local-first Windows desktop app",
+    strength: "Complete local Minecraft server management in one Windows app",
+    win: "Best overall fit for Windows self-hosting: Java, native BDS, PocketMine-MP, Geyser/Floodgate, managed Java/PHP runtimes, backups, metrics, Playit.gg tunnels, marketplace content, and open-source trust.",
+    isFeatured: true
+  },
+  {
+    tool: "SquidServers",
+    category: "Desktop app",
+    strength: "Very easy local hosting with BDS, Geyser, Playit.gg, backups, and metrics",
+    win: "PocketMC has stronger open-source trust, deeper PocketMine/Poggit/Bedrock add-on support, safer backup/restore implementation, and broader runtime ownership.",
+    isFeatured: false
+  },
+  {
+    tool: "auto-mcs",
+    category: "Desktop + Docker",
+    strength: "Broad Java support, Geyser crossplay, backups, metrics, Playit.gg",
+    win: "PocketMC supports native Bedrock Dedicated Server and PocketMine-MP, while auto-mcs is Geyser-based for Bedrock crossplay, not native BDS.",
+    isFeatured: false
+  },
+  {
+    tool: "MCSManager",
+    category: "Web panel",
+    strength: "Broad game-server management panel",
+    win: "PocketMC is more focused, simpler for Windows users, and does not require web-panel/server-admin setup.",
+    isFeatured: false
+  },
+  {
+    tool: "Pterodactyl",
+    category: "Web panel",
+    strength: "Powerful Docker-based hosting infrastructure",
+    win: "PocketMC is easier for normal Windows users who want local Minecraft hosting without Linux/Docker/Wings setup.",
+    isFeatured: false
+  },
+  {
+    tool: "fork.gg",
+    category: "Windows GUI",
+    strength: "Simple Minecraft server wrapper",
+    win: "PocketMC is much more complete: modern server families, BDS, PocketMine-MP, Geyser/Floodgate, backups, metrics, marketplace support, Playit.gg, and active open-source positioning.",
+    isFeatured: false
+  },
+  {
+    tool: "Apex Hosting",
+    category: "Managed cloud host",
+    strength: "Paid 24/7 hosted servers",
+    win: "PocketMC gives local ownership, no monthly hosting dependency, full file control, and self-hosted freedom. Apex only wins when the user specifically wants paid always-online hosting.",
+    isFeatured: false
+  },
+  {
+    tool: "Aternos",
+    category: "Free cloud host",
+    strength: "Free hosted Minecraft servers",
+    win: "PocketMC gives more control, fewer platform limits, local files, custom workflows, and no queue/ad-supported hosting model.",
+    isFeatured: false
+  },
+  {
+    tool: "CubeCoders AMP",
+    category: "Paid web panel",
+    strength: "Professional multi-game server panel",
+    win: "PocketMC is free, open-source, Minecraft-focused, and Windows desktop-first instead of paid panel-first.",
+    isFeatured: false
+  },
+  {
+    tool: "e4mc",
+    category: "Tunnel mod",
+    strength: "Quick LAN/world tunneling",
+    win: "PocketMC is a full server manager, not just a tunneling mod. It handles lifecycle, runtimes, backups, metrics, content, and restore safety.",
+    isFeatured: false
+  },
+  {
+    tool: "Essential Mod",
+    category: "Client mod / P2P hosting",
+    strength: "Easy friend world hosting",
+    win: "PocketMC manages real server instances. Essential is convenient for casual worlds, but it is not a serious server management app.",
+    isFeatured: false
+  },
+  {
+    tool: "Minehut",
+    category: "Managed cloud host",
+    strength: "Free-to-start hosted servers and community hosting",
+    win: "PocketMC wins on local ownership, file control, fewer platform restrictions, and self-hosted privacy/control.",
+    isFeatured: false
+  },
+  {
+    tool: "playit.gg",
+    category: "Tunnel service",
+    strength: "Excellent public tunnel service",
+    win: "PocketMC includes Playit.gg as part of a full server-management workflow instead of forcing users to combine tools manually like it’s 2012.",
+    isFeatured: false
+  }
+];
+
 
 // ----------------------------------------------------
 // Scroll-Driven Frame Animation Background
@@ -1343,6 +1448,81 @@ function App() {
                   );
                 })
               )}
+            </div>
+          </div>
+        </section>
+
+
+        {/* Tool Comparison Table Section */}
+        <section className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 py-16 sm:py-24 border-t border-divider">
+          <div className="text-center max-w-3xl mx-auto mb-12 sm:mb-16">
+            <span className="text-xs font-mono font-bold text-accent uppercase tracking-widest bg-base-muted px-3 py-1 rounded inline-block">
+              TOOL COMPARISON
+            </span>
+            <h2 className="mt-3 sm:mt-4 text-2xl sm:text-3xl md:text-5xl font-black tracking-[-0.04em] text-main">
+              How PocketMC Stacks Up
+            </h2>
+            <p className="mt-3 sm:mt-4 text-main-muted text-sm sm:text-base leading-relaxed">
+              Compare local self-hosting with traditional panels, cloud hosting services, wrappers, and P2P solutions.
+            </p>
+          </div>
+
+          <div className="border border-divider rounded-xl overflow-hidden bg-base-card/40 backdrop-blur-md shadow-sm relative z-10">
+            <div className="md:hidden text-center bg-accent/10 border-b border-divider py-2 px-4 text-xs font-mono text-accent animate-pulse font-bold">
+              ← Swipe horizontally to see the comparison →
+            </div>
+            <div className="overflow-x-auto scrollbar-none">
+              <Table className="min-w-[850px] md:min-w-full">
+                <TableHeader>
+                  <TableRow>
+                    <TableHead className="w-[160px]">Tool</TableHead>
+                    <TableHead className="w-[200px]">Category</TableHead>
+                    <TableHead className="w-[280px]">Core Strength</TableHead>
+                    <TableHead>Where PocketMC Wins</TableHead>
+                  </TableRow>
+                </TableHeader>
+                <TableBody>
+                  {comparisonData.map((row, idx) => {
+                    const isFeatured = row.isFeatured;
+                    return (
+                      <TableRow
+                        key={idx}
+                        className={isFeatured ? "bg-accent/5 dark:bg-accent/10 hover:bg-accent/8 dark:hover:bg-accent/15 border-l-4 border-accent" : ""}
+                      >
+                        <TableCell className="font-bold text-main py-4">
+                          {isFeatured ? (
+                            <div className="flex items-center gap-1.5 text-accent font-black">
+                              <span className="text-xs">⚡</span>
+                              {row.tool}
+                            </div>
+                          ) : (
+                            row.tool
+                          )}
+                        </TableCell>
+                        <TableCell className="py-4">
+                          <span className={`inline-flex px-2 py-0.5 text-[10px] font-semibold font-mono rounded border ${
+                            isFeatured
+                              ? "bg-accent/15 border-accent/40 text-accent"
+                              : "bg-base-muted/30 border-divider text-main-muted"
+                          }`}>
+                            {row.category}
+                          </span>
+                        </TableCell>
+                        <TableCell className="text-main-muted text-xs leading-5 py-4">
+                          {row.strength}
+                        </TableCell>
+                        <TableCell className={`text-xs leading-5 py-4 ${isFeatured ? "text-main font-bold" : "text-main-muted"}`}>
+                          {isFeatured ? (
+                            <span className="text-main dark:text-zinc-100">{row.win}</span>
+                          ) : (
+                            row.win
+                          )}
+                        </TableCell>
+                      </TableRow>
+                    );
+                  })}
+                </TableBody>
+              </Table>
             </div>
           </div>
         </section>
