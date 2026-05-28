@@ -1937,7 +1937,7 @@ function App() {
                 <p className="font-mono text-xs leading-tight" style={{ color: "var(--main-muted)" }}>© {new Date().getFullYear()} PocketMC Contributors. Licensed under MIT.</p>
               </div>
               <p className="text-[10px] text-center md:text-left font-mono leading-tight" style={{ color: "var(--main-muted)" }}>
-                PocketMC is an open-source project maintained by <a href="https://github.com/sahaj33-op" target="_blank" rel="noreferrer" className="text-accent hover:underline font-bold">sahaj33-op</a> and the Minecraft community.
+                PocketMC is an open-source project maintained by <a href="https://github.com/sahaj33-op" target="_blank" rel="noreferrer" className="text-accent hover:underline font-bold">sahaj33-op</a>, <a href="https://github.com/divyviradiya2" target="_blank" rel="noreferrer" className="text-accent hover:underline font-bold">divyviradiya2</a>, and the Minecraft community.
               </p>
             </div>
 
