@@ -880,6 +880,8 @@ function App() {
                     alt="Minecraft Skin Hero"
                     loading="lazy"
                     className="w-12 sm:w-16 h-12 sm:h-16 object-contain image-rendering-pixelated drop-shadow-md select-none group-hover/head:rotate-3 duration-300"
+                    width="64"
+                    height="64"
                   />
                   <span className="mt-1 sm:mt-1.5 font-mono text-[8px] sm:text-[9px] uppercase tracking-widest text-accent font-bold">PocketMC</span>
                 </div>
@@ -976,6 +978,8 @@ function App() {
                       alt={block.title}
                       className="w-20 sm:w-24 h-20 sm:h-24 object-contain select-none transition-transform duration-500 group-hover:scale-110 group-hover:rotate-6 animate-float"
                       style={{ animationDelay: `${idx * 1.5}s` }}
+                      width="96"
+                      height="96"
                     />
                   </div>
 
@@ -1062,6 +1066,8 @@ function App() {
                         alt={activeTabDetails.alt}
                         className="w-full h-auto block transition-all duration-700 group-hover/screen:brightness-[0.98] select-none"
                         key={activeTourTab} // forces element reload for animation
+                        width="1280"
+                        height="800"
                       />
 
                       {/* Zoom Indicator Badge in Bottom-Right */}
@@ -1302,6 +1308,9 @@ function App() {
                           src={getAssetUrl(software.icon)}
                           alt={software.name}
                           className="w-full h-full object-contain filter group-hover:scale-105 transition-transform"
+                          width="48"
+                          height="48"
+                          loading="lazy"
                         />
                       </div>
                       <div>
@@ -1571,6 +1580,9 @@ function App() {
                 </TableBody>
               </Table>
             </div>
+            <p className="mt-4 text-left text-[10px] sm:text-xs font-mono leading-relaxed px-4" style={{ color: "var(--main-muted)" }}>
+              * Comparison based on public documentation as of May 2026. Setup complexity varies based on standard manual terminal/scripts or Docker network configuration.
+            </p>
           </div>
         </section>
 
@@ -1918,10 +1930,15 @@ function App() {
 
         {/* Footer */}
         <footer className="relative z-10 border-t border-divider px-4 sm:px-6 py-8 sm:py-12 bg-base/50 backdrop-blur-sm">
-          <div className="mx-auto flex max-w-7xl flex-col justify-between gap-6 sm:gap-8 text-xs sm:text-sm text-main-muted md:flex-row items-center">
-            <div className="flex items-center gap-3 flex-shrink-0">
-              <img src={getAssetUrl("/logo.webp")} alt="PocketMC Logo" className="h-6 w-6 object-contain" width="24" height="24" />
-              <p className="font-mono text-xs leading-tight">© {new Date().getFullYear()} PocketMC Contributors. Licensed under MIT.</p>
+          <div className="mx-auto flex max-w-7xl flex-col justify-between gap-6 sm:gap-8 md:flex-row items-center">
+            <div className="flex flex-col gap-2 items-center md:items-start flex-shrink-0">
+              <div className="flex items-center gap-3">
+                <img src={getAssetUrl("/logo.webp")} alt="PocketMC Logo" className="h-6 w-6 object-contain" width="24" height="24" />
+                <p className="font-mono text-xs leading-tight" style={{ color: "var(--main-muted)" }}>© {new Date().getFullYear()} PocketMC Contributors. Licensed under MIT.</p>
+              </div>
+              <p className="text-[10px] text-center md:text-left font-mono leading-tight" style={{ color: "var(--main-muted)" }}>
+                PocketMC is an open-source project maintained by <a href="https://github.com/sahaj33-op" target="_blank" rel="noreferrer" className="text-accent hover:underline font-bold">sahaj33-op</a> and the Minecraft community.
+              </p>
             </div>
 
             <div className="flex gap-3 sm:gap-6 font-mono text-xs flex-wrap justify-center">
@@ -2017,6 +2034,8 @@ function App() {
                   src={getAssetUrl(activeTabDetails.image)}
                   alt={activeTabDetails.alt}
                   className="w-full h-auto max-h-[80vh] object-contain select-none"
+                  width="1280"
+                  height="800"
                 />
               </motion.div>
 
