@@ -301,6 +301,35 @@ const comparisonData = [
   }
 ];
 
+// FAQ Data
+const faqData = [
+  {
+    q: "Does PocketMC require Windows administrator privileges?",
+    a: "No. PocketMC runs entirely in user-space. It downloads Adoptium runtimes locally and maps isolated directories without touching system environment variables or requiring administrative elevation."
+  },
+  {
+    q: "How does the Playit.gg integration work?",
+    a: "PocketMC packages a guided 4-step wizard that pairs your Playit account. Once linked, the client automatically manages background agent processes, port mapping, and tunnel generation directly from the UI—zero router configuration needed."
+  },
+  {
+    q: "Can I host both Java and Bedrock server types?",
+    a: "Yes. PocketMC manages Vanilla Java, Paper, Fabric, Forge, and NeoForge instances on the Java side, alongside native Bedrock Dedicated Server (BDS) and PocketMine-MP. It also handles Geyser/Floodgate setups to allow Bedrock/Java cross-play."
+  },
+  {
+    q: "How secure are automated world backups?",
+    a: "Backups are highly secure. The manager locks the active server using RCON save-holding, flushes data to disk, excludes temporary run locks (like session.lock), verifies ZIP integrity via SHA-256 hashes, and offers automated cloud replication to Google Drive, OneDrive, and Dropbox."
+  },
+  {
+    q: "Are my server logs shared with third-party AI systems?",
+    a: "Only if you explicitly request an AI session summary. Obvious personal identifiers (IPs, emails) are scrubbed locally before processing. Supported models include Google Gemini, OpenAI, Claude, Mistral, Groq, or Ollama (fully local, zero-leak offline processing)."
+  },
+  {
+    q: "Can I import existing worlds or servers?",
+    a: "Yes. You can import world folders directly, ingest Minecraft Bedrock packs (.mcpack, .mcaddon, .zip) with automatic manifest mapping, or place pre-configured server JARs inside your instance root directories."
+  }
+];
+
+
 
 // ----------------------------------------------------
 // Scroll-Driven Frame Animation Background
@@ -545,8 +574,17 @@ function App() {
 
   const [activeTourTab, setActiveTourTab] = useState("dashboard");
   const [openAccordions, setOpenAccordions] = useState<Record<number, boolean>>({ 0: true });
+  const [openFaqs, setOpenFaqs] = useState<Record<number, boolean>>({ 0: true });
   const [isLightboxOpen, setIsLightboxOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
+
+  const toggleFaq = (index: number) => {
+    setOpenFaqs(prev => ({
+      ...prev,
+      [index]: !prev[index]
+    }));
+  };
+
 
   // Swipe controls for mobile screenshots
   const [touchStart, setTouchStart] = useState<number | null>(null);
@@ -1663,6 +1701,105 @@ function App() {
             )}
           </div>
         </section>
+
+
+        {/* Frequently Asked Questions Section */}
+        <section className="relative z-10 mx-auto max-w-4xl px-4 sm:px-6 py-16 sm:py-24 border-t border-divider">
+          <div className="text-center mb-12 sm:mb-16">
+            <span className="text-xs font-mono font-bold text-accent uppercase tracking-widest bg-base-muted px-3 py-1 rounded inline-block">
+              QUESTIONS & ANSWERS
+            </span>
+            <h2 className="mt-3 sm:mt-4 text-2xl sm:text-3xl md:text-5xl font-black tracking-[-0.04em] text-main">
+              Frequently Asked Questions
+            </h2>
+            <p className="mt-4 text-main-muted text-sm sm:text-base leading-relaxed">
+              Find answers to common questions about setting up, securing, and managing your Minecraft server environments.
+            </p>
+          </div>
+
+          <div className="space-y-3">
+            {faqData.map((faq, idx) => {
+              const isOpen = !!openFaqs[idx];
+              return (
+                <motion.div
+                  key={idx}
+                  initial={{ opacity: 0, y: 15 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.35, delay: idx * 0.08, ease: "easeOut" }}
+                  className={`relative rounded-xl overflow-hidden border transition-all duration-300 ${
+                    isOpen
+                      ? "border-accent/40 shadow-[0_0_24px_-4px_var(--color-accent,#7c3aed)]/30"
+                      : "border-divider shadow-sm"
+                  } bg-base-card/60 backdrop-blur-md`}
+                >
+                  {/* Animated left accent bar */}
+                  <motion.div
+                    className="absolute left-0 top-0 bottom-0 w-[3px] rounded-l-xl bg-gradient-to-b from-accent via-purple-400 to-cyan-400"
+                    initial={{ scaleY: 0, opacity: 0 }}
+                    animate={{ scaleY: isOpen ? 1 : 0, opacity: isOpen ? 1 : 0 }}
+                    transition={{ duration: 0.35, ease: "easeInOut" }}
+                    style={{ transformOrigin: "top" }}
+                  />
+
+                  <button
+                    onClick={() => toggleFaq(idx)}
+                    className="w-full px-6 py-5 flex items-center justify-between text-left focus:outline-none cursor-pointer group"
+                  >
+                    <h3 className="text-sm sm:text-base font-bold text-main group-hover:text-accent transition-colors duration-200 pr-4">
+                      {faq.q}
+                    </h3>
+
+                    {/* Animated chevron */}
+                    <motion.div
+                      animate={{
+                        rotate: isOpen ? 180 : 0,
+                        backgroundColor: isOpen ? "var(--color-accent, #7c3aed)" : "transparent",
+                        boxShadow: isOpen ? "0 0 12px -2px rgba(124,58,237,0.6)" : "none",
+                      }}
+                      transition={{ duration: 0.3, ease: "easeInOut" }}
+                      className="w-8 h-8 rounded-full border border-divider flex items-center justify-center text-sm font-bold flex-shrink-0"
+                    >
+                      <motion.svg
+                        className="w-4 h-4"
+                        style={{ color: isOpen ? "white" : "var(--color-main-muted, #888)" }}
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2.5"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      >
+                        <polyline points="6 9 12 15 18 9" />
+                      </motion.svg>
+                    </motion.div>
+                  </button>
+
+                  {/* Animated content panel */}
+                  <AnimatePresence initial={false}>
+                    {isOpen && (
+                      <motion.div
+                        key="content"
+                        initial={{ height: 0, opacity: 0 }}
+                        animate={{ height: "auto", opacity: 1 }}
+                        exit={{ height: 0, opacity: 0 }}
+                        transition={{ duration: 0.35, ease: [0.4, 0, 0.2, 1] }}
+                        style={{ overflow: "hidden" }}
+                      >
+                        <div className="border-t border-divider/60 p-6 bg-gradient-to-b from-accent/[0.02] to-transparent">
+                          <p className="text-xs sm:text-sm leading-6 text-main-muted font-mono">
+                            {faq.a}
+                          </p>
+                        </div>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </motion.div>
+              );
+            })}
+          </div>
+        </section>
+
 
         {/* Pre-footer Call to Action */}
         <section className="relative z-10 border-t border-divider bg-base-muted/50 py-24 overflow-hidden isolate">
