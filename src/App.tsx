@@ -1787,7 +1787,7 @@ function App() {
                         style={{ overflow: "hidden" }}
                       >
                         <div className="border-t border-divider/60 p-6 bg-gradient-to-b from-accent/[0.02] to-transparent">
-                          <p className="text-xs sm:text-sm leading-6 text-main-muted font-mono">
+                          <p className="text-sm sm:text-base leading-relaxed text-main/90">
                             {faq.a}
                           </p>
                         </div>
