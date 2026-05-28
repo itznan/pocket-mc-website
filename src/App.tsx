@@ -1,14 +1,16 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, lazy, Suspense } from "react";
 import type { TouchEvent } from "react";
 import { motion, AnimatePresence } from "motion/react";
-import PixelSnow from "./components/PixelSnow";
 import ClickSpark from "./components/ClickSpark";
 import StarBorder from "./components/StarBorder";
 import Dock from "./components/Dock";
 import BorderGlow from "./components/BorderGlow";
-import LiquidEther from "./components/LiquidEther";
 import { Skeleton } from "./components/ui/skeleton";
-import ElectricBorder from "./components/ElectricBorder";
+
+// Heavy WebGL/canvas components — lazy-loaded to avoid blocking first paint
+const PixelSnow = lazy(() => import("./components/PixelSnow"));
+const LiquidEther = lazy(() => import("./components/LiquidEther"));
+const ElectricBorder = lazy(() => import("./components/ElectricBorder"));
 import {
   Table,
   TableHeader,
@@ -80,7 +82,7 @@ const tourTabs = [
     id: "dashboard",
     label: "Live Dashboard",
     title: "Instant Server Lifecycle & Live Monitoring",
-    image: "/screenshots/dashboard.png",
+    image: "/screenshots/dashboard.webp",
     alt: "PocketMC Dashboard showing running instances and metrics",
     description: "The control center. Track CPU/RAM resource graphs, accepted EULAs, active player counts, and control server state gracefully. Features dynamic badges that scan mod folders to verify Geyser cross-play and voice chat integrations.",
     bullets: [
@@ -94,7 +96,7 @@ const tourTabs = [
     id: "console",
     label: "Smart Console",
     title: "Sanitized Console & Player Tracking",
-    image: "/screenshots/console.png",
+    image: "/screenshots/console.webp",
     alt: "PocketMC Console panel with log formatting",
     description: "Ditch raw terminal chaos. Read formatted, colorized, and classified logs in real-time. Execute server commands with ease and trace player activity directly.",
     bullets: [
@@ -108,7 +110,7 @@ const tourTabs = [
     id: "tunnels",
     label: "Public Access",
     title: "Playit.gg Tunnels — No Port Forwarding",
-    image: "/screenshots/tunnels.png",
+    image: "/screenshots/tunnels.webp",
     alt: "PocketMC Playit.gg agent tunnel manager",
     description: "Invite friends to play instantly. No router configuring, no port forwarding, no IP exposure. Link your Playit.gg account once and PocketMC handles agent provisioning, port matching, and tunnel creation directly from the UI.",
     bullets: [
@@ -122,7 +124,7 @@ const tourTabs = [
     id: "plugins",
     label: "Mods & Plugins",
     title: "Curated Modrinth & CurseForge Marketplaces",
-    image: "/screenshots/screenshot-plugins.png",
+    image: "/screenshots/screenshot-plugins.webp",
     alt: "PocketMC Modrinth plugin installer browser",
     description: "Install server-side mods, plugins, and content from your UI. Dependency resolution is supported where upstream API metadata is available.",
     bullets: [
@@ -136,7 +138,7 @@ const tourTabs = [
     id: "backups",
     label: "Automated Backups",
     title: "Safe World Archives, Cloud Backup & Restore",
-    image: "/screenshots/backups.png",
+    image: "/screenshots/backups.webp",
     alt: "PocketMC Backups scheduler view",
     description: "Protect your worlds. Live-server backups attempt RCON save sync first, then fall back to console save commands. Unsafe files like session.lock are automatically skipped.",
     bullets: [
@@ -150,7 +152,7 @@ const tourTabs = [
     id: "runtimes",
     label: "Java Provisioning",
     title: "App-Local Runtimes Manager",
-    image: "/screenshots/runtimes.png",
+    image: "/screenshots/runtimes.webp",
     alt: "PocketMC Java Adoptium manager",
     description: "Stop dealing with global Java environment variables. PocketMC downloads Adoptium JRE binaries locally to isolate your server dependencies from the rest of your Windows PC.",
     bullets: [
@@ -764,17 +766,19 @@ function App() {
 
             {/* Retro Pixelated Snow Backdrop overlay */}
             <div className={`absolute inset-0 z-0 pointer-events-none ${theme === "dark" ? "opacity-20" : "opacity-[0.05]"}`}>
-              <PixelSnow
-                color={theme === "dark" ? "#a78bfa" : "#4f46e5"}
-                flakeSize={0.008}
-                minFlakeSize={1.1}
-                pixelResolution={160}
-                speed={0.6}
-                density={0.2}
-                direction={135}
-                variant="snowflake"
-                brightness={1.0}
-              />
+              <Suspense fallback={null}>
+                <PixelSnow
+                  color={theme === "dark" ? "#a78bfa" : "#4f46e5"}
+                  flakeSize={0.008}
+                  minFlakeSize={1.1}
+                  pixelResolution={160}
+                  speed={0.6}
+                  density={0.2}
+                  direction={135}
+                  variant="snowflake"
+                  brightness={1.0}
+                />
+              </Suspense>
             </div>
           </div>
 
@@ -862,17 +866,19 @@ function App() {
                     <span className="text-[9px] sm:text-[10px] font-mono text-main-muted ml-2 truncate">PocketMC Dashboard v1.7.7</span>
                   </div>
                   <img
-                    src={getAssetUrl("/screenshots/dashboard.png")}
+                    src={getAssetUrl("/screenshots/dashboard.webp")}
                     alt="PocketMC Desktop Client"
                     className="w-full h-auto object-cover select-none"
+                    width="1280" height="800"
                   />
                 </div>
 
                 {/* Overlapping Floating Minecraft Skin Head */}
                 <div className="absolute -bottom-6 sm:-bottom-8 -left-4 sm:-left-6 w-24 sm:w-28 h-24 sm:h-28 border border-divider rounded-lg sm:rounded-2xl shadow-lg sm:shadow-xl bg-base-card/90 backdrop-blur p-2 animate-float-slow transition-transform hover:scale-105 flex flex-col justify-center items-center group/head cursor-pointer">
                   <img
-                    src={getAssetUrl("/hero_head.png")}
+                    src={getAssetUrl("/hero_head.webp")}
                     alt="Minecraft Skin Hero"
+                    loading="lazy"
                     className="w-12 sm:w-16 h-12 sm:h-16 object-contain image-rendering-pixelated drop-shadow-md select-none group-hover/head:rotate-3 duration-300"
                   />
                   <span className="mt-1 sm:mt-1.5 font-mono text-[8px] sm:text-[9px] uppercase tracking-widest text-accent font-bold">PocketMC</span>
@@ -916,7 +922,7 @@ function App() {
             <h2 className="mt-3 sm:mt-4 text-2xl sm:text-3xl md:text-5xl font-black tracking-[-0.04em]">
               Built with proper gaming mechanics.
             </h2>
-            <p className="mt-3 sm:mt-4 text-main-muted text-sm sm:text-base leading-relaxed">
+            <p className="mt-3 sm:mt-4 text-sm sm:text-base leading-relaxed" style={{ color: "var(--main-muted)" }}>
               No convoluted scripts, Docker overheads, or web dashboards. PocketMC packages standard tasks as smooth, local desktop features.
             </p>
           </div>
@@ -925,21 +931,21 @@ function App() {
             {[
               {
                 title: "1-Click Instance Setup",
-                image: "/block_grass.png",
+                image: "/block_grass.webp",
                 desc: "Deploy Vanilla, Paper, Fabric, Forge, BDS, or PocketMine server instances directly from an elegant client. EULA prompts, server versions, and runtime downloads are fully managed under one local path.",
                 badge: "LIFECYCLE",
                 color: "border-green-500/20 hover:border-green-500/40"
               },
               {
                 title: "Scheduled World Backups",
-                image: "/block_cobble.png",
+                image: "/block_cobble.webp",
                 desc: "Protect your worlds. Enjoy automated cron schedules or manual backup triggers that use active RCON locks. Includes zip security validations, zip cleanups, and external directory replication.",
                 badge: "RECOVERY",
                 color: "border-zinc-500/20 hover:border-zinc-500/40"
               },
               {
                 title: "Zero-Config Runtimes & Tunnels",
-                image: "/block_diamond.png",
+                image: "/block_diamond.webp",
                 desc: "PocketMC provisions local Adoptium Java 8-25 versions and PM5 PHP binaries on demand. Zero global environment clashes. Share with friends instantly using built-in Playit.gg agent setups.",
                 badge: "CONNECTIVITY",
                 color: "border-cyan-500/20 hover:border-cyan-500/40"
@@ -995,7 +1001,7 @@ function App() {
               <h2 className="mt-3 sm:mt-4 text-2xl sm:text-3xl md:text-5xl font-black tracking-[-0.04em] text-main">
                 Inspect every interface.
               </h2>
-              <p className="mt-3 sm:mt-4 text-main-muted text-sm sm:text-base max-w-2xl">
+              <p className="mt-3 sm:mt-4 text-sm sm:text-base max-w-2xl" style={{ color: "var(--main-muted)" }}>
                 Explore the actual WPF app views. Each screen was crafted from the ground up for Windows, delivering a clean desktop experience.
               </p>
             </div>
@@ -1095,7 +1101,8 @@ function App() {
                   </div>
 
                   {/* Floating Application Navigation Dock (Desktop Only) */}
-                  <div className="hidden md:flex relative mt-6 justify-center">
+                  {/* min-height reserves space before JS hydration to prevent CLS */}
+                  <div className="hidden md:flex relative mt-6 justify-center" style={{ minHeight: "80px" }}>
                     <Dock items={dockItems} />
                   </div>
 
@@ -1184,34 +1191,36 @@ function App() {
                   </div>
 
                   {/* Screenshot Details Info Card */}
-                  <ElectricBorder
-                    color={theme === "dark" ? "#a78bfa" : "#4f46e5"}
-                    speed={0.7}
-                    chaos={0.05}
-                    borderRadius={12}
-                    className="w-full"
-                  >
-                    <div className="border border-divider bg-base-card/65 backdrop-blur-md p-8 rounded-xl shadow-sm">
-                      <h3 className="text-xl font-black text-main flex items-center gap-2">
-                        <span className="h-2 w-2 rounded-full bg-accent"></span>
-                        {activeTabDetails.title}
-                      </h3>
-                      <p className="mt-3 text-sm leading-6 text-main-muted">
-                        {activeTabDetails.description}
-                      </p>
+                  <Suspense fallback={null}>
+                    <ElectricBorder
+                      color={theme === "dark" ? "#a78bfa" : "#4f46e5"}
+                      speed={0.7}
+                      chaos={0.05}
+                      borderRadius={12}
+                      className="w-full"
+                    >
+                      <div className="border border-divider bg-base-card/65 backdrop-blur-md p-8 rounded-xl shadow-sm">
+                        <h3 className="text-xl font-black text-main flex items-center gap-2">
+                          <span className="h-2 w-2 rounded-full bg-accent"></span>
+                          {activeTabDetails.title}
+                        </h3>
+                        <p className="mt-3 text-sm leading-6 text-main-muted">
+                          {activeTabDetails.description}
+                        </p>
 
-                      <div className="mt-6 grid sm:grid-cols-2 gap-4">
-                        {activeTabDetails.bullets.map((bullet, i) => (
-                          <div key={i} className="flex items-start gap-2.5 text-xs font-mono text-main-muted">
-                            <svg className="w-4 h-4 text-accent mt-0.5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
-                            </svg>
-                            <span>{bullet}</span>
-                          </div>
-                        ))}
+                        <div className="mt-6 grid sm:grid-cols-2 gap-4">
+                          {activeTabDetails.bullets.map((bullet, i) => (
+                            <div key={i} className="flex items-start gap-2.5 text-xs font-mono text-main-muted">
+                              <svg className="w-4 h-4 text-accent mt-0.5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
+                              </svg>
+                              <span>{bullet}</span>
+                            </div>
+                          ))}
+                        </div>
                       </div>
-                    </div>
-                  </ElectricBorder>
+                    </ElectricBorder>
+                  </Suspense>
                 </>
               )}
             </div>
@@ -1228,7 +1237,7 @@ function App() {
               <h2 className="mt-3 sm:mt-4 text-2xl sm:text-3xl md:text-5xl font-black tracking-[-0.04em] text-main">
                 Support for every major server software.
               </h2>
-              <p className="mt-3 sm:mt-4 text-main-muted text-sm sm:text-base leading-6">
+              <p className="mt-3 sm:mt-4 text-sm sm:text-base leading-6" style={{ color: "var(--main-muted)" }}>
                 PocketMC resolves available server versions from upstream APIs and manifests dynamically, facilitating installation for:
               </p>
 
@@ -1500,7 +1509,7 @@ function App() {
             <h2 className="mt-3 sm:mt-4 text-2xl sm:text-3xl md:text-5xl font-black tracking-[-0.04em] text-main">
               How PocketMC Stacks Up
             </h2>
-            <p className="mt-3 sm:mt-4 text-main-muted text-sm sm:text-base leading-relaxed">
+            <p className="mt-3 sm:mt-4 text-sm sm:text-base leading-relaxed" style={{ color: "var(--main-muted)" }}>
               Compare local self-hosting with traditional panels, cloud hosting services, wrappers, and P2P solutions.
             </p>
           </div>
@@ -1611,13 +1620,15 @@ function App() {
                 <div className="border border-divider p-6 sm:p-8 rounded-lg sm:rounded-xl bg-base-card/40 backdrop-blur shadow-sm relative overflow-hidden">
                   {/* LiquidEther Background */}
                   <div className="absolute inset-0 -z-10 pointer-events-none">
-                    <LiquidEther
-                      colors={theme === "dark" ? ['#6366f1', '#8b5cf6', '#a78bfa'] : ['#4f46e5', '#60a5fa', '#c084fc']}
-                      mouseForce={5}
-                      cursorSize={40}
-                      resolution={0.4}
-                      autoDemo={false}
-                    />
+                    <Suspense fallback={null}>
+                      <LiquidEther
+                        colors={theme === "dark" ? ['#6366f1', '#8b5cf6', '#a78bfa'] : ['#4f46e5', '#60a5fa', '#c084fc']}
+                        mouseForce={5}
+                        cursorSize={40}
+                        resolution={0.4}
+                        autoDemo={false}
+                      />
+                    </Suspense>
                   </div>
                   <h3 className="text-lg sm:text-xl font-black text-main font-mono mb-4 sm:mb-6 relative z-10">🏁 Quick Start</h3>
 
@@ -1661,13 +1672,15 @@ function App() {
                 <div className="flex flex-col justify-between border border-divider p-8 rounded-xl bg-base-card/40 backdrop-blur shadow-sm relative overflow-hidden">
                   {/* LiquidEther Background */}
                   <div className="absolute inset-0 -z-10 pointer-events-none">
-                    <LiquidEther
-                      colors={theme === "dark" ? ['#6366f1', '#8b5cf6', '#a78bfa'] : ['#4f46e5', '#60a5fa', '#c084fc']}
-                      mouseForce={5}
-                      cursorSize={40}
-                      resolution={0.4}
-                      autoDemo={false}
-                    />
+                    <Suspense fallback={null}>
+                      <LiquidEther
+                        colors={theme === "dark" ? ['#6366f1', '#8b5cf6', '#a78bfa'] : ['#4f46e5', '#60a5fa', '#c084fc']}
+                        mouseForce={5}
+                        cursorSize={40}
+                        resolution={0.4}
+                        autoDemo={false}
+                      />
+                    </Suspense>
                   </div>
                   <div className="relative z-10">
                     <h3 className="text-xl font-black text-main font-mono mb-6">💻 System Requirements</h3>
@@ -1829,17 +1842,19 @@ function App() {
         <section className="relative z-10 border-t border-divider bg-base-muted/50 py-24 overflow-hidden isolate">
           {/* Retro Pixelated Snow Backdrop */}
           <div className={`absolute inset-0 -z-10 pointer-events-none ${theme === "dark" ? "opacity-15" : "opacity-[0.03]"}`}>
-            <PixelSnow
-              color={theme === "dark" ? "#ffffff" : "#4f46e5"}
-              flakeSize={0.012}
-              minFlakeSize={1.4}
-              pixelResolution={200}
-              speed={0.9}
-              density={0.18}
-              direction={110}
-              variant="square"
-              brightness={1.0}
-            />
+            <Suspense fallback={null}>
+              <PixelSnow
+                color={theme === "dark" ? "#ffffff" : "#4f46e5"}
+                flakeSize={0.012}
+                minFlakeSize={1.4}
+                pixelResolution={200}
+                speed={0.9}
+                density={0.18}
+                direction={110}
+                variant="square"
+                brightness={1.0}
+              />
+            </Suspense>
           </div>
           <div className="absolute top-[10%] right-[-100px] w-[400px] h-[400px] rounded-full glow-orb opacity-50 pointer-events-none"></div>
 
@@ -1905,7 +1920,7 @@ function App() {
         <footer className="relative z-10 border-t border-divider px-4 sm:px-6 py-8 sm:py-12 bg-base/50 backdrop-blur-sm">
           <div className="mx-auto flex max-w-7xl flex-col justify-between gap-6 sm:gap-8 text-xs sm:text-sm text-main-muted md:flex-row items-center">
             <div className="flex items-center gap-3 flex-shrink-0">
-              <img src={getAssetUrl("/logo.png")} alt="PocketMC Logo" className="h-6 w-6 object-contain" />
+              <img src={getAssetUrl("/logo.webp")} alt="PocketMC Logo" className="h-6 w-6 object-contain" width="24" height="24" />
               <p className="font-mono text-xs leading-tight">© {new Date().getFullYear()} PocketMC Contributors. Licensed under MIT.</p>
             </div>
 
@@ -2067,9 +2082,10 @@ function Header({ theme, toggleTheme }: HeaderProps) {
       <nav className="mx-auto flex max-w-7xl items-center justify-between px-4 sm:px-6 py-3 sm:py-4">
         <a href="#" className="flex items-center gap-2 sm:gap-3 group flex-shrink-0">
           <img
-            src={getAssetUrl("/logo.png")}
+            src={getAssetUrl("/logo.webp")}
             alt="PocketMC Logo"
             className="h-8 sm:h-9 w-8 sm:w-9 object-contain rounded transition-transform group-hover:scale-105 duration-300"
+            width="36" height="36"
           />
           <div className="hidden sm:block">
             <p className="font-black leading-none tracking-[-0.02em] text-main text-sm">PocketMC</p>
