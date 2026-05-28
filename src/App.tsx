@@ -1706,13 +1706,22 @@ function App() {
         {/* Frequently Asked Questions Section */}
         <section className="relative z-10 mx-auto max-w-4xl px-4 sm:px-6 py-16 sm:py-24 border-t border-divider">
           <div className="text-center mb-12 sm:mb-16">
-            <span className="text-xs font-mono font-bold text-accent uppercase tracking-widest bg-base-muted px-3 py-1 rounded inline-block">
-              QUESTIONS & ANSWERS
+            <span
+              className="text-xs font-mono font-bold uppercase tracking-widest px-3 py-1 rounded inline-block"
+              style={{ color: "var(--accent)", background: "var(--base-muted)" }}
+            >
+              QUESTIONS &amp; ANSWERS
             </span>
-            <h2 className="mt-3 sm:mt-4 text-2xl sm:text-3xl md:text-5xl font-black tracking-[-0.04em] text-main">
+            <h2
+              className="mt-3 sm:mt-4 text-2xl sm:text-3xl md:text-5xl font-black tracking-[-0.04em]"
+              style={{ color: "var(--main)" }}
+            >
               Frequently Asked Questions
             </h2>
-            <p className="mt-4 text-main-muted text-sm sm:text-base leading-relaxed">
+            <p
+              className="mt-4 text-sm sm:text-base leading-relaxed"
+              style={{ color: "var(--main-muted)" }}
+            >
               Find answers to common questions about setting up, securing, and managing your Minecraft server environments.
             </p>
           </div>
@@ -1729,9 +1738,13 @@ function App() {
                   transition={{ duration: 0.35, delay: idx * 0.08, ease: "easeOut" }}
                   className={`relative rounded-xl overflow-hidden border transition-all duration-300 ${
                     isOpen
-                      ? "border-accent/40 shadow-[0_0_24px_-4px_var(--color-accent,#7c3aed)]/30"
-                      : "border-divider shadow-sm"
-                  } bg-base-card/60 backdrop-blur-md`}
+                      ? "border-accent/40"
+                      : "border-divider"
+                  }`}
+                  style={{
+                    background: "var(--base-card)",
+                    boxShadow: isOpen ? "0 0 24px -4px color-mix(in srgb, var(--accent) 30%, transparent)" : "0 1px 3px rgba(0,0,0,0.08)"
+                  }}
                 >
                   {/* Animated left accent bar */}
                   <motion.div
@@ -1746,7 +1759,10 @@ function App() {
                     onClick={() => toggleFaq(idx)}
                     className="w-full px-6 py-5 flex items-center justify-between text-left focus:outline-none cursor-pointer group"
                   >
-                    <h3 className="text-sm sm:text-base font-bold text-main group-hover:text-accent transition-colors duration-200 pr-4">
+                    <h3
+                      className="text-sm sm:text-base font-bold pr-4 transition-colors duration-200"
+                      style={{ color: "var(--main)" }}
+                    >
                       {faq.q}
                     </h3>
 
@@ -1786,8 +1802,16 @@ function App() {
                         transition={{ duration: 0.35, ease: [0.4, 0, 0.2, 1] }}
                         style={{ overflow: "hidden" }}
                       >
-                        <div className="border-t border-divider/60 p-6 bg-gradient-to-b from-accent/[0.02] to-transparent">
-                          <p className="text-sm sm:text-base leading-relaxed text-main/90">
+                        <div
+                          className="p-6"
+                          style={{
+                            borderTop: "1px solid var(--divider)",
+                          }}
+                        >
+                          <p
+                            className="text-sm leading-relaxed"
+                            style={{ color: "var(--main-muted)", lineHeight: "1.75" }}
+                          >
                             {faq.a}
                           </p>
                         </div>

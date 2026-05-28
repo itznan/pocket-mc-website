@@ -1,36 +1,55 @@
 # PocketMC Website 🌐
 
-The official landing page for **PocketMC**, the local-first Windows client for automated Minecraft server management. 
+The official landing page for **PocketMC**, the free local-first Windows client for automated Minecraft server management.
 
 🚀 **Live Website**: [pocketmc.github.io/pocket-mc-website](https://pocketmc.github.io/pocket-mc-website/)
+📦 **App Repository**: [PocketMC/pocket-mc-windows](https://github.com/PocketMC/pocket-mc-windows)
 
 ---
 
 ## 🎨 Tech Stack & Features
 
-This website is designed with a premium, game-inspired aesthetic featuring rich, interactive micro-animations, fully responsive light/dark themes, and modern SEO structures.
+This website is designed with a premium, game-inspired aesthetic featuring rich interactive micro-animations, a fully responsive light/dark theme system, and complete modern SEO structures.
 
 ### Core Stack
 * **Framework**: React 19 + TypeScript
 * **Build Tool**: Vite
 * **Styling**: Tailwind CSS v4
-* **Animation & Rendering**: Motion (Framer Motion v12) & Three.js
+* **Animation & Rendering**: Motion (Framer Motion v12) & Three.js (via WebGL)
 
-### Key UI Features
-* **Scroll-Driven WebP Backdrop**: Plays a smooth, scroll-controlled background sequence of WebP frames.
-* **Interactive Screenshot Tour**: A centered carousel tour of the desktop client views navigated by a custom floating **Dock** (featuring Client-Coordinate hover-scaling and dynamic active icons).
-* **Fullscreen Lightbox Viewer**: View full-resolution, uncropped screenshots with touch gestures (swipes), close hooks (`Escape`, backdrop click), and keyboard/tap arrows.
-* **Premium Dynamic Effects**:
-  * `<ElectricBorder />`: Neon electric canvas trace with random noise wave algorithms (under details cards).
-  * `<BorderGlow />`: Mouse-proximity edge lighting with multi-color gradients (under server stack).
-  * `<LiquidEther />`: Interactive WebGL liquid shader background (under requirements/quickstart).
-  * `<ClickSpark />`: Cursor-click physics particles.
-  * `<PixelSnow />`: Retro pixelated snow fall overlay.
-* **100% Theme-Adaptive**: All dynamic effects dynamically balance color palettes, opacities, and canvas blend-modes (`mix-blend-mode: normal` in light mode; `plus-lighter` in dark mode) to look perfect on both `#f7f5ef` (light beige) and `#09090b` (dark slate) backdrops.
+### Page Sections
+| Section | Description |
+|---|---|
+| **Hero** | Headline, tagline, download CTA, and a scroll-driven WebP animation backdrop |
+| **Features Overview** | Four key feature cards: Runtime Management, Backups, Tunneling, and Marketplace |
+| **Screenshot Tour** | Interactive carousel of the PocketMC desktop UI navigated by a floating Dock |
+| **Feature Details** | Deep-dive cards per feature with animated ElectricBorder canvas effects |
+| **Server Software** | Visual grid of all 7 supported server engines with platform badges |
+| **Requirements & Quickstart** | System requirements table and step-by-step quick-start guide |
+| **Comparison Table** | Side-by-side comparison of PocketMC vs. Crafty Controller, MCSManager, AMP, Pterodactyl, and CLI |
+| **FAQ** | Animated accordion FAQ with 6 common questions about setup, cross-play, pricing, and privacy |
+| **Call to Action** | Download button linking to the latest GitHub release |
 
-### SEO & Developer Crawlers
-* **SEO-Friendly Metadata**: Configured with Canonical URLs, JSON-LD Schema (`SoftwareApplication` rich snippets), Open Graph headers, and custom crawl controls (`robots.txt` + `sitemap.xml`).
-* **LLM Context (`llm.txt`)**: A machine-readable developer log located in `public/llm.txt` containing codebase summaries, features, and target OS specifications for AI agents.
+### Key UI Components
+* **`<ElectricBorder />`**: Neon electric canvas trace with random noise wave algorithms (feature detail cards).
+* **`<BorderGlow />`**: Mouse-proximity edge lighting with multi-colour gradients (server software stack).
+* **`<LiquidEther />`**: Interactive WebGL liquid shader background (requirements / quickstart section).
+* **`<StarBorder />`**: Rotating animated star orbit border (quickstart steps).
+* **`<ClickSpark />`**: Cursor-click physics particle burst.
+* **`<PixelSnow />`**: Retro pixelated snow fall overlay (pre-footer CTA section).
+* **`<Dock />`**: Custom floating screenshot navigation dock with client-coordinate hover scaling.
+* **Fullscreen Lightbox Viewer**: Touch gestures (swipe), `Escape`/backdrop close, keyboard arrows.
+
+### Theme Adaptivity
+All dynamic effects dynamically adjust colour palettes, opacities, and canvas blend-modes:
+* **Light mode** (`#f7f5ef` beige): `mix-blend-mode: normal`, muted glow intensities, indigo accent palette.
+* **Dark mode** (`#09090b` slate): `mix-blend-mode: plus-lighter`, vibrant violet/purple accent palette.
+
+### SEO & Discoverability
+* **Structured Metadata**: Canonical URL, Open Graph headers, Twitter Card, and `robots.txt` controls.
+* **JSON-LD Rich Snippets**: Both `SoftwareApplication` (for Google Search download cards) and `FAQPage` (for Google FAQ accordions in SERPs) schemas.
+* **Sitemap**: `public/sitemap.xml` for search engine crawling.
+* **LLM Context (`llm.txt`)**: Machine-readable developer log at `public/llm.txt` — a codebase summary for AI agents and LLM-based search tools.
 
 ---
 
@@ -68,19 +87,30 @@ The compiled output is emitted to the `dist/` directory, configured for sub-fold
 ## 📂 Project Structure
 
 ```text
-├── public/                 # Static assets (icons, screenshots, sitemap.xml, llm.txt)
+├── public/                     # Static assets served as-is
+│   ├── screenshots/            # Desktop UI screenshot PNGs used in the tour
+│   ├── icons/                  # Server software logos (Paper, Fabric, Forge, etc.)
+│   ├── bg_animation/           # WebP frames for the scroll-driven background
+│   ├── Hero_bg_animation/      # WebP frames for the hero background
+│   ├── favicon.ico / .svg      # Site icon
+│   ├── logo.png                # PocketMC logo
+│   ├── robots.txt              # Search engine crawl rules
+│   ├── sitemap.xml             # XML sitemap for search indexing
+│   └── llm.txt                 # Machine-readable context for LLM/AI agents
 ├── src/
-│   ├── components/         # Interactive canvas and layout components
-│   │   ├── ui/             # Core skeleton components
-│   │   ├── BorderGlow.tsx  # Dynamic edge-lighting components
-│   │   ├── ClickSpark.tsx  # Click-spark effect
-│   │   ├── Dock.tsx        # View-switching navigation dock
-│   │   ├── ElectricBorder.tsx # Neon canvas path distortion
-│   │   ├── LiquidEther.tsx # Fluid WebGL background
-│   │   └── PixelSnow.tsx   # Pixelated snow overlays
-│   ├── App.tsx             # Main page layout & state coordination
-│   ├── index.css           # Global custom Tailwind classes & design variables
-│   └── main.tsx            # React application entry point
+│   ├── components/             # All interactive and layout components
+│   │   ├── ui/                 # Core skeleton/table components (shadcn-style)
+│   │   ├── BorderGlow.tsx      # Mouse-proximity edge-lighting canvas effect
+│   │   ├── ClickSpark.tsx      # Click-triggered physics spark burst
+│   │   ├── Dock.tsx            # Floating screenshot navigation dock
+│   │   ├── ElectricBorder.tsx  # Neon electric canvas path distortion
+│   │   ├── LiquidEther.tsx     # Fluid interactive WebGL background shader
+│   │   ├── PixelSnow.tsx       # Retro pixelated snowfall overlay
+│   │   └── StarBorder.tsx      # Animated star orbit border wrapper
+│   ├── App.tsx                 # Main page layout, all sections & state coordination
+│   ├── index.css               # Global Tailwind v4 design tokens & CSS variables
+│   └── main.tsx                # React application entry point
+├── index.html                  # Root HTML with all SEO metadata & JSON-LD schemas
 ├── package.json
 └── vite.config.ts
 ```

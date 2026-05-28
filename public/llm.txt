@@ -1,11 +1,12 @@
 # PocketMC
 
-PocketMC is a local-first Windows desktop client designed to manage and run Minecraft Java & Bedrock servers easily, with no script writing or complex configuration required.
+PocketMC is a free, local-first Windows desktop client designed to manage and run Minecraft Java & Bedrock servers easily, with no script writing or complex configuration required.
 
 ## Key Information
 - **App Platform**: Windows Desktop (WPF, C#, .NET 8.0)
-- **Deployment URL**: https://pocketmc.github.io/pocket-mc-website/
-- **GitHub Repository**: https://github.com/PocketMC/pocket-mc-windows
+- **Website**: https://pocketmc.github.io/pocket-mc-website/
+- **GitHub (App)**: https://github.com/PocketMC/pocket-mc-windows
+- **GitHub (Website)**: https://github.com/PocketMC/pocket-mc-website
 - **Official Releases**: https://github.com/PocketMC/pocket-mc-windows/releases/latest
 - **License**: MIT License
 - **Support Discord**: https://discord.gg/h27uNCaxPH
@@ -16,7 +17,7 @@ PocketMC is a local-first Windows desktop client designed to manage and run Mine
 ## Key Features
 
 ### 1. Runtime Isolation & Management
-- Downloads and manages adoptium JRE runtimes locally to prevent polluting Windows system environment variables.
+- Downloads and manages Adoptium JRE runtimes locally to prevent polluting Windows system environment variables.
 - Supports local versions: Java 8, 11, 17, 21, and 25.
 - Automatically prompts and downloads the correct Java version matching the Minecraft server version.
 - Integrates the official PHP 8.2 runtime specifically optimized for PocketMine-MP PM5 servers.
@@ -27,7 +28,7 @@ PocketMC is a local-first Windows desktop client designed to manage and run Mine
 - **Fabric**: Modular lightweight modding toolkit, supports Minecraft 1.14+ up to latest.
 - **Forge**: Legacy industry-standard modding framework, installer-based downloads, Minecraft 1.8.8+ up to latest.
 - **NeoForge**: Community-driven modern fork of Forge, installer-based downloads from official Maven metadata.
-- **Bedrock Server (BDS)**: Official Mojang bedrock server binary, supports stable & preview builds.
+- **Bedrock Server (BDS)**: Official Mojang Bedrock server binary, supports stable & preview builds.
 - **PocketMine-MP**: PHP-based highly extensible Bedrock server (PM5 runtime supported).
 
 ### 3. Integrated Local & Cloud Backups
@@ -49,10 +50,26 @@ PocketMC is a local-first Windows desktop client designed to manage and run Mine
 
 ### 6. Interactive Management Tools
 - Colorized real-time server log console with auto-sanitization of personal details (IP addresses, emails).
-- Resource usage charts (Real-time CPU and RAM logging).
+- Resource usage charts (real-time CPU and RAM logging).
 - Automated pre-flight port checks to avoid address conflicts before starting server processes.
 - Runs silently in the Windows System Tray with support for auto-starts and clean background operations.
 - Dynamic cross-play badges that scan mod directories to verify Geyser + Floodgate or Simple Voice Chat statuses.
+
+---
+
+## Website Sections
+
+The landing page at https://pocketmc.github.io/pocket-mc-website/ includes the following content sections:
+
+1. **Hero** — Headline, tagline, download CTA, and a scroll-driven WebP animation backdrop.
+2. **Features Overview** — Four key feature cards: Runtime Management, Backups, Tunneling, and Marketplace.
+3. **Screenshot Tour** — Interactive carousel showcasing the PocketMC desktop UI with a floating Dock navigator.
+4. **Feature Details** — Deep-dive cards per feature with animated ElectricBorder effects (Geyser/Floodgate, Sanitized Console, Mod Marketplace, Backups).
+5. **Supported Server Software** — Visual grid of all 7 supported server engine types with platform badges.
+6. **Requirements & Quickstart** — System requirements table and a step-by-step quick-start guide.
+7. **PocketMC vs Alternatives Comparison Table** — A side-by-side comparison of PocketMC against Crafty Controller, MCSManager, AMP (CubeCoders), Pterodactyl Panel, and manual CLI setups. PocketMC wins on: local-first design, zero port forwarding, native Windows integration, Adoptium JRE auto-management, and being 100% free.
+8. **FAQ** — Accordion-style FAQ with 6 questions covering: Java requirements, tunnel setup, Bedrock cross-play, data privacy/local storage, supported software, and pricing.
+9. **Call to Action** — Download button linking to the latest GitHub release.
 
 ---
 
