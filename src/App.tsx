@@ -755,16 +755,7 @@ function SpotlightCard({
 }
 
 function App() {
-  const [theme, setTheme] = useState<"light" | "dark">(() => {
-    if (typeof window !== "undefined") {
-      const saved = localStorage.getItem("theme");
-      if (saved === "light" || saved === "dark") return saved;
-      return window.matchMedia("(prefers-color-scheme: dark)").matches
-        ? "dark"
-        : "light";
-    }
-    return "light";
-  });
+  const [theme] = useState<"light" | "dark">("dark");
 
   const [activeTourTab, setActiveTourTab] = useState("dashboard");
   const [openAccordions, setOpenAccordions] = useState<Record<number, boolean>>(
@@ -856,8 +847,7 @@ function App() {
     localStorage.setItem("theme", theme);
   }, [theme]);
 
-  const toggleTheme = () =>
-    setTheme((prev) => (prev === "light" ? "dark" : "light"));
+  const toggleTheme = () => {};
 
   const toggleAccordion = (index: number) => {
     setOpenAccordions((prev) => ({
@@ -1005,7 +995,7 @@ function App() {
   });
 
   return (
-    <main className="min-h-screen text-main theme-transition relative overflow-x-clip bg-grid z-0">
+    <main className="min-h-screen text-main theme-transition relative overflow-x-clip z-0">
       <ScrollAnimationBackground />
       <ClickSpark
         sparkColor={theme === "dark" ? "#a78bfa" : "#4f46e5"}
@@ -1218,7 +1208,7 @@ function App() {
         </section>
 
         {/* Iconic Minecraft Feature Pillars */}
-        <section className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 py-16 sm:py-24">
+        <section id="features" className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 py-16 sm:py-24">
           <div className="text-center max-w-3xl mx-auto mb-12 sm:mb-16">
             <span className="text-xs font-mono font-bold text-accent uppercase tracking-widest bg-base-muted px-3 py-1 rounded inline-block">
               THE CORE MECHANICS
@@ -1712,7 +1702,7 @@ function App() {
         </section>
 
         {/* Supported Server Software Grid */}
-        <section className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 py-16 sm:py-24">
+        <section id="software" className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 py-16 sm:py-24">
           <div className="grid gap-8 sm:gap-12 lg:grid-cols-[0.8fr_1.2fr] items-center">
             <div>
               <span className="text-xs font-mono font-bold text-accent uppercase tracking-widest bg-base-muted px-3 py-1 rounded inline-block">
@@ -2083,7 +2073,7 @@ function App() {
         </section>
 
         {/* Tool Comparison Table Section */}
-        <section className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 py-16 sm:py-24 border-t border-divider">
+        <section id="comparison" className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 py-16 sm:py-24 border-t border-divider">
           <div className="text-center max-w-3xl mx-auto mb-12 sm:mb-16">
             <span className="text-xs font-mono font-bold text-accent uppercase tracking-widest bg-base-muted px-3 py-1 rounded inline-block">
               TOOL COMPARISON
@@ -2354,7 +2344,7 @@ function App() {
         </section>
 
         {/* Frequently Asked Questions Section */}
-        <section className="relative z-10 mx-auto max-w-4xl px-4 sm:px-6 py-16 sm:py-24 border-t border-divider">
+        <section id="faq" className="relative z-10 mx-auto max-w-4xl px-4 sm:px-6 py-16 sm:py-24 border-t border-divider">
           <div className="text-center mb-12 sm:mb-16">
             <span
               className="text-xs font-mono font-bold uppercase tracking-widest px-3 py-1 rounded inline-block"
@@ -2902,6 +2892,43 @@ function App() {
 }
 
 // ----------------------------------------------------
+// Social Icons for Header Dropdown
+// ----------------------------------------------------
+const GitHubIcon = ({ className }: { className?: string }) => (
+  <svg className={className} viewBox="0 0 24 24" fill="currentColor">
+    <path fillRule="evenodd" clipRule="evenodd" d="M12 2C6.477 2 2 6.477 2 12c0 4.42 2.865 8.166 6.839 9.489.5.092.682-.217.682-.482 0-.237-.008-.866-.013-1.7-2.782.603-3.369-1.34-3.369-1.34-.454-1.156-1.11-1.464-1.11-1.464-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.831.092-.646.35-1.086.636-1.336-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.203 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.743 0 .267.18.579.688.481C19.137 20.164 22 16.418 22 12c0-5.523-4.477-10-10-10z" />
+  </svg>
+);
+
+const DiscordIcon = ({ className }: { className?: string }) => (
+  <svg className={className} viewBox="0 0 24 24" fill="currentColor">
+    <path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028c.462-.63.874-1.295 1.226-1.994.021-.041.001-.09-.041-.106a13.094 13.094 0 0 1-1.873-.894.077.077 0 0 1-.008-.128c.126-.093.252-.19.372-.287a.075.075 0 0 1 .077-.011c3.92 1.793 8.18 1.793 12.061 0a.073.073 0 0 1 .078.009c.12.099.246.195.373.289a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.894.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.156-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.156 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.156-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.156 2.418z" />
+  </svg>
+);
+
+const RedditIcon = ({ className }: { className?: string }) => (
+  <svg className={className} viewBox="0 0 24 24" fill="currentColor">
+    <path d="M24 11.5c0-1.65-1.35-3-3-3-.96 0-1.86.48-2.42 1.24-1.64-1-3.85-1.64-6.24-1.72l1.37-4.31 3.91.82c.08.77.74 1.37 1.54 1.37 1.11 0 2.01-.9 2.01-2.01s-.9-2.01-2.01-2.01c-.88 0-1.61.58-1.87 1.38l-4.32-.91c-.18-.04-.37.06-.43.24l-1.6 5.05c-2.44.05-4.67.7-6.33 1.72-.56-.76-1.46-1.24-2.42-1.24-1.65 0-3 1.35-3 3 0 1.12.61 2.1 1.53 2.62-.05.29-.08.59-.08.88 0 3.86 4.49 7 10 7s10-3.14 10-7c0-.29-.03-.59-.08-.88.92-.52 1.53-1.5 1.53-2.62zm-18 1c.77 0 1.39.62 1.39 1.39s-.62 1.39-1.39 1.39-1.39-.62-1.39-1.39.62-1.39 1.39-1.39zm10 5.8c-1.77 1.77-5.15 1.77-6.92 0-.2-.2-.2-.51 0-.71.2-.2.51-.2.71 0 1.38 1.38 4.12 1.38 5.5 0 .2-.2.51-.2.71 0 .2.21.2.51 0 .71zm-.61-3.02c-.77 0-1.39-.62-1.39-1.39s.62-1.39 1.39-1.39 1.39.62 1.39 1.39-.62 1.39-1.39 1.39z" />
+  </svg>
+);
+
+const YouTubeIcon = ({ className }: { className?: string }) => (
+  <svg className={className} viewBox="0 0 24 24" fill="currentColor">
+    <path d="M23.498 6.163a3.003 3.003 0 0 0-2.11-2.11C19.518 3.545 12 3.545 12 3.545s-7.518 0-9.388.508a3.003 3.003 0 0 0-2.11 2.11C0 8.033 0 12 0 12s0 3.967.502 5.837a3.003 3.003 0 0 0 2.11 2.11c1.87.508 9.388.508 9.388.508s7.518 0 9.388-.508a3.003 3.003 0 0 0 2.11-2.11C24 15.967 24 12 24 12s0-3.967-.502-5.837zM9.545 15.568V8.432L15.818 12l-6.273 3.568z" />
+  </svg>
+);
+
+const CoffeeIcon = ({ className }: { className?: string }) => (
+  <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M17 8h1a4 4 0 1 1 0 8h-1" />
+    <path d="M3 8h14v9a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4V8z" />
+    <line x1="6" y1="2" x2="6" y2="4" />
+    <line x1="10" y1="2" x2="10" y2="4" />
+    <line x1="14" y1="2" x2="14" y2="4" />
+  </svg>
+);
+
+// ----------------------------------------------------
 // Header Component (With Animated Theme Switcher)
 // ----------------------------------------------------
 interface HeaderProps {
@@ -2909,7 +2936,9 @@ interface HeaderProps {
   toggleTheme: () => void;
 }
 
-function Header({ theme, toggleTheme }: HeaderProps) {
+function Header(_props: HeaderProps) {
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
   return (
     <header className="sticky top-0 z-50 border-b border-divider bg-base/85 backdrop-blur-md theme-transition">
       <nav className="mx-auto flex max-w-7xl items-center justify-between px-4 sm:px-6 py-3 sm:py-4">
@@ -2925,7 +2954,7 @@ function Header({ theme, toggleTheme }: HeaderProps) {
             height="36"
           />
           <div className="hidden sm:block">
-            <p className="font-black leading-none tracking-[-0.02em] text-main text-sm">
+            <p className="font-bold leading-none tracking-[-0.02em] text-main text-sm">
               PocketMC
             </p>
             <p className="mt-1 text-xs text-main-muted font-mono">
@@ -2934,109 +2963,262 @@ function Header({ theme, toggleTheme }: HeaderProps) {
           </div>
         </a>
 
-        <div className="flex items-center gap-4 sm:gap-6">
-          <div className="hidden items-center gap-6 sm:gap-8 md:flex mr-2 font-mono text-xs sm:text-sm">
-            <a
-              href="#screenshots"
-              className="font-semibold text-main-muted hover:text-accent transition-colors"
-            >
-              Screenshots
-            </a>
-            <a
-              href="#roadmap"
-              className="font-semibold text-main-muted hover:text-accent transition-colors"
-            >
-              Under the Hood
-            </a>
-            <a
-              href="https://github.com/PocketMC/pocket-mc-windows"
-              target="_blank"
-              rel="noreferrer"
-              className="font-semibold text-main-muted hover:text-accent transition-colors"
-            >
-              GitHub
-            </a>
-            <a
-              href="https://discord.gg/h27uNCaxPH"
-              target="_blank"
-              rel="noreferrer"
-              className="font-semibold text-main-muted hover:text-[#5865F2] transition-colors"
-            >
-              Discord
-            </a>
-            <a
-              href="https://www.reddit.com/r/PocketMC/"
-              target="_blank"
-              rel="noreferrer"
-              className="font-semibold text-main-muted hover:text-[#FF4500] transition-colors"
-            >
-              Reddit
-            </a>
-            <a
-              href="https://www.youtube.com/@OfficialPocketMC"
-              target="_blank"
-              rel="noreferrer"
-              className="font-semibold text-main-muted hover:text-[#FF0000] transition-colors"
-            >
-              YouTube
-            </a>
-            <a
-              href="https://www.buymeacoffee.com/sahaj33"
-              target="_blank"
-              rel="noreferrer"
-              className="font-semibold text-main-muted hover:text-[#FF813F] transition-colors"
-            >
-              Buy Me a Coffee
-            </a>
-          </div>
-
-          {/* Sun/Moon Animated Toggle Button */}
-          <button
-            onClick={toggleTheme}
-            className="relative grid h-10 w-10 place-items-center rounded-full border border-divider bg-base-muted/40 text-main hover:bg-base hover:text-accent hover:border-accent/40 shadow-sm transition-all focus:outline-none cursor-pointer"
-            aria-label="Toggle light/dark theme"
-            title={`Switch to ${theme === "light" ? "dark" : "light"} mode`}
+        {/* Desktop Navigation Links */}
+        <div className="hidden items-center gap-6 lg:gap-8 md:flex mr-2 font-sans text-sm">
+          <a
+            href="#features"
+            className="font-medium text-main-muted hover:text-accent transition-colors"
           >
-            {/* Sun Icon */}
-            <svg
-              className={`absolute h-5 w-5 transition-all duration-300 transform ${
-                theme === "dark"
-                  ? "rotate-90 scale-0 opacity-0"
-                  : "rotate-0 scale-100 opacity-100"
-              }`}
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-              strokeWidth={2.5}
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707m0-12.728l.707.707m12.728 12.728l.707.707M12 8a4 4 0 100 8 4 4 0 000-8z"
-              />
-            </svg>
+            Features
+          </a>
+          <a
+            href="#servers"
+            className="font-medium text-main-muted hover:text-accent transition-colors"
+          >
+            Tour
+          </a>
+          <a
+            href="#software"
+            className="font-medium text-main-muted hover:text-accent transition-colors"
+          >
+            Engines
+          </a>
+          <a
+            href="#roadmap"
+            className="font-medium text-main-muted hover:text-accent transition-colors"
+          >
+            Under the Hood
+          </a>
+          <a
+            href="#comparison"
+            className="font-medium text-main-muted hover:text-accent transition-colors"
+          >
+            Comparison
+          </a>
+          <a
+            href="#faq"
+            className="font-medium text-main-muted hover:text-accent transition-colors"
+          >
+            FAQ
+          </a>
 
-            {/* Moon Icon */}
+          {/* Dropdown for Community */}
+          <div className="relative group">
+            <button className="flex items-center gap-1 font-medium text-main-muted hover:text-accent transition-colors focus:outline-none cursor-pointer py-1">
+              <span>Community</span>
+              <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
+              </svg>
+            </button>
+            {/* Dropdown menu container with a tiny gap buffer to prevent mouse leave closing */}
+            <div className="absolute right-0 mt-1 pt-2 w-48 origin-top-right opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
+              <div className="rounded-md border border-divider bg-base-card shadow-lg py-1">
+                <a
+                  href="https://github.com/PocketMC/pocket-mc-windows"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="flex items-center gap-2.5 px-4 py-2 text-sm text-main-muted hover:bg-base-muted hover:text-accent transition-colors"
+                >
+                  <GitHubIcon className="w-4 h-4" />
+                  GitHub
+                </a>
+                <a
+                  href="https://discord.gg/h27uNCaxPH"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="flex items-center gap-2.5 px-4 py-2 text-sm text-main-muted hover:bg-base-muted hover:text-[#5865F2] transition-colors"
+                >
+                  <DiscordIcon className="w-4 h-4" />
+                  Discord
+                </a>
+                <a
+                  href="https://www.reddit.com/r/PocketMC/"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="flex items-center gap-2.5 px-4 py-2 text-sm text-main-muted hover:bg-base-muted hover:text-[#FF4500] transition-colors"
+                >
+                  <RedditIcon className="w-4 h-4" />
+                  Reddit
+                </a>
+                <a
+                  href="https://www.youtube.com/@OfficialPocketMC"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="flex items-center gap-2.5 px-4 py-2 text-sm text-main-muted hover:bg-base-muted hover:text-[#FF0000] transition-colors"
+                >
+                  <YouTubeIcon className="w-4 h-4" />
+                  YouTube
+                </a>
+                <div className="border-t border-divider my-1"></div>
+                <a
+                  href="https://www.buymeacoffee.com/sahaj33"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="flex items-center gap-2.5 px-4 py-2 text-sm text-main hover:bg-base-muted hover:text-[#FF813F] transition-colors font-semibold"
+                >
+                  <CoffeeIcon className="w-4 h-4" />
+                  Buy Me a Coffee
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Right side controls (Download + Mobile Toggle) */}
+        <div className="flex items-center gap-3 sm:gap-4">
+          <a
+            href="https://github.com/PocketMC/pocket-mc-windows/releases/latest/download/PocketMC-win-Setup.exe"
+            className="hidden sm:inline-flex h-9 items-center justify-center bg-accent text-accent-text hover:bg-accent-hover font-bold text-xs px-4 rounded-md transition-colors shadow-sm cursor-pointer select-none"
+          >
+            Download
+          </a>
+
+          {/* Mobile hamburger menu toggle */}
+          <button
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            className="md:hidden relative grid h-10 w-10 place-items-center rounded-full border border-divider bg-base-muted/40 text-main hover:bg-base hover:text-accent shadow-sm transition-all focus:outline-none cursor-pointer"
+            aria-label="Toggle mobile menu"
+          >
             <svg
-              className={`absolute h-5 w-5 transition-all duration-300 transform ${
-                theme === "dark"
-                  ? "rotate-0 scale-100 opacity-100"
-                  : "-rotate-90 scale-0 opacity-0"
-              }`}
+              className="h-5 w-5"
               fill="none"
               viewBox="0 0 24 24"
               stroke="currentColor"
               strokeWidth={2.5}
             >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"
-              />
+              {mobileMenuOpen ? (
+                <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+              ) : (
+                <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+              )}
             </svg>
           </button>
         </div>
       </nav>
+
+      {/* Mobile Drawer (Framer Motion Drawer) */}
+      <AnimatePresence>
+        {mobileMenuOpen && (
+          <motion.div
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: "auto" }}
+            exit={{ opacity: 0, height: 0 }}
+            transition={{ duration: 0.25, ease: "easeInOut" }}
+            className="md:hidden border-t border-divider bg-base-card px-4 py-4 space-y-4 shadow-inner"
+          >
+            <div className="flex flex-col space-y-3 font-sans">
+              <a
+                href="#features"
+                onClick={() => setMobileMenuOpen(false)}
+                className="font-medium text-main-muted hover:text-accent transition-colors py-1.5"
+              >
+                Features
+              </a>
+              <a
+                href="#servers"
+                onClick={() => setMobileMenuOpen(false)}
+                className="font-medium text-main-muted hover:text-accent transition-colors py-1.5"
+              >
+                Tour
+              </a>
+              <a
+                href="#software"
+                onClick={() => setMobileMenuOpen(false)}
+                className="font-medium text-main-muted hover:text-accent transition-colors py-1.5"
+              >
+                Engines
+              </a>
+              <a
+                href="#roadmap"
+                onClick={() => setMobileMenuOpen(false)}
+                className="font-medium text-main-muted hover:text-accent transition-colors py-1.5"
+              >
+                Under the Hood
+              </a>
+              <a
+                href="#comparison"
+                onClick={() => setMobileMenuOpen(false)}
+                className="font-medium text-main-muted hover:text-accent transition-colors py-1.5"
+              >
+                Comparison
+              </a>
+              <a
+                href="#faq"
+                onClick={() => setMobileMenuOpen(false)}
+                className="font-medium text-main-muted hover:text-accent transition-colors py-1.5"
+              >
+                FAQ
+              </a>
+            </div>
+
+            <div className="border-t border-divider pt-3">
+              <p className="text-[10px] font-sans font-bold tracking-wider uppercase text-main-muted mb-2">Community</p>
+              <div className="grid grid-cols-2 gap-2 text-sm font-sans">
+                <a
+                  href="https://github.com/PocketMC/pocket-mc-windows"
+                  target="_blank"
+                  rel="noreferrer"
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="flex items-center gap-2 text-main-muted hover:text-accent py-1"
+                >
+                  <GitHubIcon className="w-4 h-4" />
+                  GitHub
+                </a>
+                <a
+                  href="https://discord.gg/h27uNCaxPH"
+                  target="_blank"
+                  rel="noreferrer"
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="flex items-center gap-2 text-main-muted hover:text-[#5865F2] py-1"
+                >
+                  <DiscordIcon className="w-4 h-4" />
+                  Discord
+                </a>
+                <a
+                  href="https://www.reddit.com/r/PocketMC/"
+                  target="_blank"
+                  rel="noreferrer"
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="flex items-center gap-2 text-main-muted hover:text-[#FF4500] py-1"
+                >
+                  <RedditIcon className="w-4 h-4" />
+                  Reddit
+                </a>
+                <a
+                  href="https://www.youtube.com/@OfficialPocketMC"
+                  target="_blank"
+                  rel="noreferrer"
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="flex items-center gap-2 text-main-muted hover:text-[#FF0000] py-1"
+                >
+                  <YouTubeIcon className="w-4 h-4" />
+                  YouTube
+                </a>
+              </div>
+            </div>
+
+            <div className="border-t border-divider pt-4 flex flex-col gap-2 font-sans">
+              <a
+                href="https://www.buymeacoffee.com/sahaj33"
+                target="_blank"
+                rel="noreferrer"
+                onClick={() => setMobileMenuOpen(false)}
+                className="flex items-center justify-center gap-2 border border-divider text-xs font-semibold py-2.5 rounded-md hover:bg-base-muted text-main transition-colors"
+              >
+                <CoffeeIcon className="w-4 h-4" />
+                Buy Me a Coffee
+              </a>
+              <a
+                href="https://github.com/PocketMC/pocket-mc-windows/releases/latest/download/PocketMC-win-Setup.exe"
+                onClick={() => setMobileMenuOpen(false)}
+                className="flex items-center justify-center bg-accent text-accent-text hover:bg-accent-hover font-bold text-xs py-2.5 rounded-md transition-colors"
+              >
+                Download Setup.exe
+              </a>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </header>
   );
 }

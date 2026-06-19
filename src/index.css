@@ -3,17 +3,17 @@
 @custom-variant dark (&:where(.dark, .dark *));
 
 :root {
-  --base: #f7f5ef;
-  --base-card: #ffffff;
-  --base-muted: #efede5;
-  --main: #11140f;
-  --main-muted: #50574e;
-  --divider: rgba(17, 20, 15, 0.12);
-  --accent: #4f46e5;
-  --accent-hover: #4338ca;
-  --accent-text: #ffffff;
-  --glow: rgba(99, 102, 241, 0.06);
-  --success: #6366f1;
+  --base: #09090b;
+  --base-card: #121217;
+  --base-muted: #181820;
+  --main: #f4f4f5;
+  --main-muted: #a1a1aa;
+  --divider: rgba(244, 244, 245, 0.1);
+  --accent: #a78bfa;
+  --accent-hover: #c4b5fd;
+  --accent-text: #1e1b4b;
+  --glow: rgba(139, 92, 246, 0.12);
+  --success: #c4b5fd;
 
   /* Explicitly define Tailwind v4 theme variables to avoid cascade layer inheritance issues */
   --color-base: var(--base);
@@ -29,37 +29,10 @@
   --color-success: var(--success);
   
   font-family:
-    Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+    "Inter", ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
     sans-serif;
   background: var(--base);
   color: var(--main);
-}
-
-.dark {
-  --base: #09090b;
-  --base-card: #121217;
-  --base-muted: #181820;
-  --main: #f4f4f5;
-  --main-muted: #a1a1aa;
-  --divider: rgba(244, 244, 245, 0.1);
-  --accent: #a78bfa;
-  --accent-hover: #c4b5fd;
-  --accent-text: #1e1b4b;
-  --glow: rgba(139, 92, 246, 0.12);
-  --success: #c4b5fd;
-
-  /* Explicitly redefine Tailwind v4 theme variables for dark mode to force browser re-evaluation */
-  --color-base: var(--base);
-  --color-base-card: var(--base-card);
-  --color-base-muted: var(--base-muted);
-  --color-main: var(--main);
-  --color-main-muted: var(--main-muted);
-  --color-divider: var(--divider);
-  --color-accent: var(--accent);
-  --color-accent-hover: var(--accent-hover);
-  --color-accent-text: var(--accent-text);
-  --color-glow: var(--glow);
-  --color-success: var(--success);
 }
 
 @theme {
@@ -75,6 +48,11 @@
   --color-glow: var(--glow);
   --color-success: var(--success);
   --font-playfair: "Playfair Display", Georgia, serif;
+  --font-outfit: "Outfit", sans-serif;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: "Outfit", ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
 }
 
 * {
@@ -127,13 +105,9 @@ a {
 
 /* Glassmorphic card styling */
 .glass-panel {
-  background-color: rgba(255, 255, 255, 0.03);
+  background-color: rgba(18, 18, 23, 0.7);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
-}
-
-.dark .glass-panel {
-  background-color: rgba(18, 18, 23, 0.7);
 }
 
 /* Minecraft grid background style */
@@ -206,16 +180,10 @@ a {
 
 /* Glow Shadows */
 .glow-shadow-accent {
-  box-shadow: 0 10px 30px -10px rgba(79, 70, 229, 0.15);
-}
-.dark .glow-shadow-accent {
   box-shadow: 0 15px 40px -12px rgba(167, 139, 250, 0.25);
 }
 
 .glow-shadow-success {
-  box-shadow: 0 10px 30px -10px rgba(99, 102, 241, 0.15);
-}
-.dark .glow-shadow-success {
   box-shadow: 0 15px 40px -12px rgba(196, 181, 253, 0.25);
 }
 
