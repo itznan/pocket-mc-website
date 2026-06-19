@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef, lazy, Suspense } from "react";
+import { useState, useEffect, useRef, lazy, Suspense, useCallback } from "react";
 import type { TouchEvent } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import ClickSpark from "./components/ClickSpark";
@@ -18,6 +18,18 @@ import {
   TableHead,
   TableCell,
 } from "./components/ui/table";
+
+interface AuditPoint {
+  title: string;
+  desc: string;
+  file?: string;
+  code?: string;
+}
+
+interface ProofModalData {
+  title: string;
+  points: AuditPoint[];
+}
 
 const getAssetUrl = (path: string) => {
   if (!path) return "";
@@ -551,7 +563,7 @@ function ScrollAnimationBackground() {
     loadImages();
   }, []);
 
-  const drawFrame = (index: number) => {
+  const drawFrame = useCallback((index: number) => {
     const canvas = canvasRef.current;
     if (!canvas || images.length === 0) return;
 
@@ -586,7 +598,7 @@ function ScrollAnimationBackground() {
 
     ctx.clearRect(0, 0, canvasWidth, canvasHeight);
     ctx.drawImage(img, drawX, drawY, drawWidth, drawHeight);
-  };
+  }, [images]);
 
   // Handle Resize
   useEffect(() => {
@@ -602,7 +614,7 @@ function ScrollAnimationBackground() {
     handleResize(); // Initial call
 
     return () => window.removeEventListener("resize", handleResize);
-  }, [isLoaded, images]);
+  }, [isLoaded, images, drawFrame]);
 
   // Handle Scroll
   useEffect(() => {
@@ -649,7 +661,7 @@ function ScrollAnimationBackground() {
     window.addEventListener("scroll", handleScroll, { passive: true });
     handleScroll(); // Initial call
     return () => window.removeEventListener("scroll", handleScroll);
-  }, [isLoaded, images]);
+  }, [isLoaded, images, drawFrame]);
 
   // Initial Draw and Mount Fade
   useEffect(() => {
@@ -657,7 +669,7 @@ function ScrollAnimationBackground() {
       drawFrame(0);
       setTimeout(() => setMountOpacity(1), 100);
     }
-  }, [isLoaded]);
+  }, [isLoaded, drawFrame]);
 
   return (
     <div
@@ -762,7 +774,7 @@ function App() {
     0: true,
   });
   const [lightboxImage, setLightboxImage] = useState<string | null>(null);
-  const [proofModalData, setProofModalData] = useState<any | null>(null);
+  const [proofModalData, setProofModalData] = useState<ProofModalData | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
   const toggleFaq = (index: number) => {
@@ -2814,7 +2826,7 @@ function App() {
 
                 {/* Audit Points */}
                 <div className="space-y-6">
-                  {proofModalData.points.map((pt: any, i: number) => (
+                  {proofModalData.points.map((pt: AuditPoint, i: number) => (
                     <div key={i} className="flex flex-col gap-1.5 border-l-2 border-accent/30 pl-4 py-0.5">
                       <h4 className="text-sm font-bold text-main">
                         {pt.title}
